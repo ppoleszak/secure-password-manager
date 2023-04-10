@@ -13,7 +13,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -31,4 +30,3 @@ public class SecurityConfiguration {
                 .build();
     }
 }
-

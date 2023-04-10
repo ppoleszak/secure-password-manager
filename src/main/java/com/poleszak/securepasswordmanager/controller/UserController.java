@@ -32,6 +32,7 @@ public class UserController {
     @PostMapping("/verify")
     public ResponseEntity<Boolean> verifyPassword(@RequestBody UserDto userDto) {
         var isUserVerified = userService.verifyPassword(userDto);
+
         return ResponseEntity.status(OK).body(isUserVerified);
     }
 }

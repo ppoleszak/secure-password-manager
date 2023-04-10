@@ -4,12 +4,11 @@ import com.poleszak.securepasswordmanager.model.dto.UserDto;
 import com.poleszak.securepasswordmanager.model.entity.UserApp;
 import com.poleszak.securepasswordmanager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-
+import static java.util.Base64.getEncoder;
+import static org.springframework.security.crypto.keygen.KeyGenerators.secureRandom;
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256;
 
 @Service
@@ -28,9 +27,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserApp register(UserDto userDto) {
-        var keyGenerator = KeyGenerators.secureRandom(SALT_LENGTH);
+        var keyGenerator = secureRandom(SALT_LENGTH);
         var saltBytes = keyGenerator.generateKey();
-        var salt = Base64.getEncoder().encodeToString(saltBytes);
+        var salt = getEncoder().encodeToString(saltBytes);
 
         var passwordEncoder = new Pbkdf2PasswordEncoder(SECRET, SALT_LENGTH, ITERATIONS, PBKDF2WithHmacSHA256);
         passwordEncoder.setEncodeHashAsBase64(true);
@@ -49,8 +48,9 @@ public class UserService {
         var user = userRepository.findByUsername(userDto.username());
         validateUser(user);
 
-        Pbkdf2PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder(SECRET, SALT_LENGTH, ITERATIONS, PBKDF2WithHmacSHA256);
+        var passwordEncoder = new Pbkdf2PasswordEncoder(SECRET, SALT_LENGTH, ITERATIONS, PBKDF2WithHmacSHA256);
         passwordEncoder.setEncodeHashAsBase64(true);
+
         return passwordEncoder.matches(userDto.password(), user.getPasswordHash());
     }
 
