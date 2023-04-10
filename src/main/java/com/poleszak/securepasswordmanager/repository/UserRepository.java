@@ -1,9 +1,9 @@
 package com.poleszak.securepasswordmanager.repository;
 
-import com.poleszak.securepasswordmanager.model.entity.User;
+import com.poleszak.securepasswordmanager.model.entity.UserApp;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserApp, Long> {
 
-    User findByUsername(String username);
+    UserApp findByUsername(String username);
 }

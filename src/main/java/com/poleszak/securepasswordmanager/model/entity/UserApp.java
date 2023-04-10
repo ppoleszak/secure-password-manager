@@ -16,7 +16,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserApp {
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "user_id_sequence")
