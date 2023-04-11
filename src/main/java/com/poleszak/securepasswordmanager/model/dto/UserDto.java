@@ -1,4 +1,15 @@
 package com.poleszak.securepasswordmanager.model.dto;
 
-public record UserDto(String username,
-                      String password) { }
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class UserDto {
+    public String username;
+    public String password;
+}

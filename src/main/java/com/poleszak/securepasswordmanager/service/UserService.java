@@ -33,10 +33,10 @@ public class UserService {
 
         var passwordEncoder = new Pbkdf2PasswordEncoder(SECRET, SALT_LENGTH, ITERATIONS, PBKDF2WithHmacSHA256);
         passwordEncoder.setEncodeHashAsBase64(true);
-        var passwordHash = passwordEncoder.encode(userDto.password());
+        var passwordHash = passwordEncoder.encode(userDto.getPassword());
 
         var user = UserApp.builder()
-                .username(userDto.username())
+                .username(userDto.getUsername())
                 .passwordHash(passwordHash)
                 .salt(salt)
                 .build();
@@ -45,13 +45,13 @@ public class UserService {
     }
 
     public boolean verifyPassword(UserDto userDto) {
-        var user = userRepository.findByUsername(userDto.username());
+        var user = userRepository.findByUsername(userDto.getUsername());
         validateUser(user);
 
         var passwordEncoder = new Pbkdf2PasswordEncoder(SECRET, SALT_LENGTH, ITERATIONS, PBKDF2WithHmacSHA256);
         passwordEncoder.setEncodeHashAsBase64(true);
 
-        return passwordEncoder.matches(userDto.password(), user.getPasswordHash());
+        return passwordEncoder.matches(userDto.getPassword(), user.getPasswordHash());
     }
 
     private void validateUser(UserApp user) {
