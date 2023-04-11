@@ -1,5 +1,6 @@
 package com.poleszak.securepasswordmanager.service;
 
+import com.poleszak.securepasswordmanager.exception.UserNotFoundException;
 import com.poleszak.securepasswordmanager.model.dto.UserDto;
 import com.poleszak.securepasswordmanager.model.entity.UserApp;
 import com.poleszak.securepasswordmanager.repository.UserRepository;
@@ -26,7 +27,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserApp register(UserDto userDto) {
+    public void register(UserDto userDto) {
         var keyGenerator = secureRandom(SALT_LENGTH);
         var saltBytes = keyGenerator.generateKey();
         var salt = getEncoder().encodeToString(saltBytes);
@@ -41,7 +42,7 @@ public class UserService {
                 .salt(salt)
                 .build();
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public boolean verifyPassword(UserDto userDto) {
@@ -56,7 +57,7 @@ public class UserService {
 
     private void validateUser(UserApp user) {
         if (user == null) {
-            throw new NullPointerException();
+            throw new UserNotFoundException("User not found.");
         }
     }
 }

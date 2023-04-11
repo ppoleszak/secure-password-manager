@@ -1,5 +1,6 @@
 package com.poleszak.securepasswordmanager.controller;
 
+import com.poleszak.securepasswordmanager.exception.UserNotFoundException;
 import com.poleszak.securepasswordmanager.model.dto.UserDto;
 import com.poleszak.securepasswordmanager.service.UserService;
 import jakarta.validation.Valid;
@@ -22,13 +23,25 @@ public class UserController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("userDto", new UserDto());
-        return "login";
+        return "index";
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("userDto", new UserDto());
+        return "register";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result) {
+    public String register(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "login";
+            model.addAttribute("errorMessage", "All fields must be filled in.");
+            return "register";
         }
 
         log.info("Start registration for user: {}", userDto.getUsername());
@@ -38,25 +51,24 @@ public class UserController {
         return "redirect:/";
     }
 
-
     @PostMapping("/verify")
-    public String verifyPassword(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result) {
+    public String verifyPassword(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "login";
+            return "index";
         }
 
-        var isUserVerified = userService.verifyPassword(userDto);
+        try {
+            var isUserVerified = userService.verifyPassword(userDto);
 
-        if (isUserVerified) {
-            return "redirect:/dashboard";
-        } else {
-            result.rejectValue("password", "error.userDto", "Invalid username or password");
-            return "login";
+            if (isUserVerified) {
+                return "redirect:/dashboard";
+            } else {
+                model.addAttribute("errorMessage", "User not found.");
+                return "index";
+            }
+        } catch (UserNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "index";
         }
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
     }
 }
