@@ -1,60 +1,90 @@
-function validateInput(inputElement) {
-    const errorMessageDiv = document.getElementById('error-message');
-
-    if (!inputElement.value) {
-        inputElement.classList.add('invalid');
-        errorMessageDiv.textContent = 'All fields must be filled out';
-        errorMessageDiv.classList.add('show');
-        errorMessageDiv.style.display = 'block';
-        return false;
-    } else {
-        inputElement.classList.remove('invalid');
-        errorMessageDiv.classList.remove('show');
-        errorMessageDiv.style.display = 'none';
-        return true;
-    }
-}
-
-
 function validatePasswords() {
     const username = document.getElementById('username');
     const password = document.getElementById('password');
     const repeatPassword = document.getElementById('repeatPassword');
+    const errorMessageDiv = document.getElementById('error-message');
 
-    const isUsernameValid = validateInput(username);
-    const isPasswordValid = validateInput(password);
-    const isRepeatPasswordValid = validateInput(repeatPassword);
+    let isValid = true;
 
-    if (!isUsernameValid || !isPasswordValid || !isRepeatPasswordValid) {
+    if (!username.value) {
+        username.classList.add('invalid');
+        isValid = false;
+    } else {
+        username.classList.remove('invalid');
+    }
+
+    if (!password.value) {
+        password.classList.add('invalid');
+        isValid = false;
+    } else {
+        password.classList.remove('invalid');
+    }
+
+    if (!repeatPassword.value) {
+        repeatPassword.classList.add('invalid');
+        isValid = false;
+    } else {
+        repeatPassword.classList.remove('invalid');
+    }
+
+    if (!isValid) {
+        displayError('All fields must be filled out');
         return false;
     }
 
     if (password.value !== repeatPassword.value) {
         password.classList.add('invalid');
         repeatPassword.classList.add('invalid');
-        const errorMessageDiv = document.getElementById('error-message');
-        errorMessageDiv.textContent = 'Provided passwords must be the same';
-        errorMessageDiv.classList.add('show');
+        displayError('Provided passwords must be the same');
         return false;
     }
 
-    const errorMessageDiv = document.getElementById('error-message');
-    errorMessageDiv.classList.remove('show');
+    errorMessageDiv.style.display = 'none';
     return true;
 }
 
 function validateLoginForm() {
     const username = document.getElementById('username');
     const password = document.getElementById('password');
+    const errorMessageDiv = document.getElementById('error-message');
 
-    const isUsernameValid = validateInput(username);
-    const isPasswordValid = validateInput(password);
+    let isValid = true;
 
-    if (!isUsernameValid || !isPasswordValid) {
+    if (!username.value) {
+        username.classList.add('invalid');
+        isValid = false;
+    } else {
+        username.classList.remove('invalid');
+    }
+
+    if (!password.value) {
+        password.classList.add('invalid');
+        isValid = false;
+    } else {
+        password.classList.remove('invalid');
+    }
+
+    if (!isValid) {
+        displayError('All fields must be filled out');
         return false;
     }
 
-    const errorMessageDiv = document.getElementById('error-message');
-    errorMessageDiv.classList.remove('show');
+    errorMessageDiv.style.display = 'none';
     return true;
+}
+
+function displayError(message) {
+    const errorDiv = document.getElementById('error-message');
+    errorDiv.textContent = message;
+    errorDiv.classList.add('fade-in');
+    errorDiv.style.display = 'block';
+
+    setTimeout(() => {
+        errorDiv.classList.remove('fade-in');
+        errorDiv.classList.add('fade-out');
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+            errorDiv.classList.remove('fade-out');
+        }, 1000);
+    }, 3000);
 }
