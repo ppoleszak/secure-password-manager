@@ -88,3 +88,12 @@ function displayError(message) {
         }, 1000);
     }, 3000);
 }
+
+function displayLoginError() {
+    const errorMessage = document.getElementById('error-message').getAttribute('data-error-message');
+    if (errorMessage) {
+        displayError(errorMessage);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', displayLoginError);
