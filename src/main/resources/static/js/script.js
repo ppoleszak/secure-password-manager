@@ -2,7 +2,7 @@ function validatePasswords() {
     const username = document.getElementById('username');
     const password = document.getElementById('password');
     const repeatPassword = document.getElementById('repeatPassword');
-    const errorMessageDiv = document.getElementById('error-message');
+        const errorMessageDiv = document.getElementById('error-message');
 
     let isValid = true;
 
