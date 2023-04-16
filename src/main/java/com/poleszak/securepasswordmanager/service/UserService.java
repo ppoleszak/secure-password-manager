@@ -4,7 +4,9 @@ import com.poleszak.securepasswordmanager.exception.UserNotFoundException;
 import com.poleszak.securepasswordmanager.model.dto.UserDto;
 import com.poleszak.securepasswordmanager.model.entity.UserApp;
 import com.poleszak.securepasswordmanager.repository.UserRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +15,18 @@ import static org.springframework.security.crypto.keygen.KeyGenerators.secureRan
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256;
 
 @Service
+@Getter
 @RequiredArgsConstructor
 public class UserService {
 
-    //    @Value("${security.password.iterations}")
-    private static final int ITERATIONS = 18500;
+    @Value("${security.password.iterations}")
+    private int ITERATIONS;
 
-    //    @Value("${security.password.salt-length}")
-    private final int SALT_LENGTH = 8;
+    @Value("${security.password.salt-length}")
+    private int SALT_LENGTH;
 
-    //    @Value("${security.password.secret}")
-    private final String SECRET = "dsfhfkjdsahf";
+    @Value("${security.password.secret}")
+    private String SECRET;
 
     private final UserRepository userRepository;
 

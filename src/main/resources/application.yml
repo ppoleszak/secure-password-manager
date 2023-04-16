@@ -19,4 +19,4 @@ security:
   password:
     iterations: 185000
     salt-length: 8
-    secret: "rJ9Gm9r6TbT6jKv6@L!p3x^Hg$q8b*E!f&H7b9Xn2%C3"
+    secret: "\"rJ9Gm9r6TbT6jKv6@L!p3x^Hg$q8b*E!f&H7b9Xn2%C3\""
