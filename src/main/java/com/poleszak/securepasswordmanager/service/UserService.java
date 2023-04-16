@@ -4,7 +4,6 @@ import com.poleszak.securepasswordmanager.exception.UserNotFoundException;
 import com.poleszak.securepasswordmanager.model.dto.UserDto;
 import com.poleszak.securepasswordmanager.model.entity.UserApp;
 import com.poleszak.securepasswordmanager.repository.UserRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -15,7 +14,6 @@ import static org.springframework.security.crypto.keygen.KeyGenerators.secureRan
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256;
 
 @Service
-@Getter
 @RequiredArgsConstructor
 public class UserService {
 
